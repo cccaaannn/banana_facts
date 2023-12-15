@@ -1,24 +1,40 @@
 {
-    "manifest_version" : 2,
-    "name" : "Banana-facts",
-    "version" : "0.1.0",
-    "icons" : {
-        "48" : "static/images/banana.png"
+    "manifest_version": 3,
+    "name": "Banana-facts",
+    "description": "Sometimes all you need is some banana facts.",
+    "version": "0.1.1",
+    "icons": {
+        "48": "static/images/banana.png"
     },
-
-    "content_scripts" : [
+    "content_scripts": [
         {
-            "matches" : ["<all_urls>"],
-            "js" : ["static/js/banana.js"],
-            "css" : ["static/css/banana.css", "static/css/popup.css"]
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "static/js/banana.js"
+            ],
+            "css": [
+                "static/css/banana.css",
+                "static/css/popup.css"
+            ]
         }
     ],
-    "web_accessible_resources": ["static/images/banana.png"],
-    "browser_action" : {
-        "default_popup" : "popup.html"
-    },
-
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "static/images/banana.png"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
     "permissions": [
         "storage"
-      ]
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_security_policy": {}
 }
