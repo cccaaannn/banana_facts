@@ -1,6 +1,6 @@
 #banana {
     position: fixed;
-    bottom: 5%;
-    right: 2em;
+    bottom: 24px;
+    right: 24px;
     z-index: 1000;
 }
