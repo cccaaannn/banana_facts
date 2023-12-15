@@ -1,39 +1,34 @@
-// Saves options to chrome.storage
-function save_options() {
+/**
+ * Saves options to chrome.storage.
+ */
+function saveOptions() {
     var isBananaActive = document.getElementById('isBananaActive').checked;
-    chrome.storage.sync.set({
-        isBananaActive: isBananaActive
-    },
-        displayMessages("status", "bananas saved", 1)
-    );
-}
-  
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
-function restore_options() {
-    chrome.storage.sync.get({
-        isBananaActive: true
-    }, function(items) {
-        document.getElementById('isBananaActive').checked = items.isBananaActive;
-    });
+    chrome.storage.sync.set({ isBananaActive: isBananaActive }, displayMessages("#status", "Bananas saved", 1));
 }
 
-function displayMessages(parent_id, message, delay){
+/**
+ * Restores select box and checkbox state using the preferences.
+ * Stored in chrome.storage.
+ */
+function restoreOptions() {
+    chrome.storage.sync.get({ isBananaActive: true }, items => { document.getElementById('isBananaActive').checked = items.isBananaActive; });
+}
+
+/**
+ * Adds message to a parent element.
+ * @param {*} parentSelector
+ * @param {*} message 
+ * @param {*} delaySeconds 
+ */
+function displayMessages(parentSelector, message, delaySeconds) {
     const alert = document.createElement("div");
-    alert.innerHTML = `
-        <br>
-        ${message}
-    `;
+    alert.innerHTML = `<br>${message}`;
 
-    const message_div = document.getElementById(parent_id);
+    const message_div = document.querySelector(parentSelector);
     message_div.appendChild(alert);
 
-    window.setTimeout(function(){
-        alert.remove();
-    },delay*1000);
+    window.setTimeout(() => alert.remove(), delaySeconds * 1000);
 }
 
-
-
-document.getElementById('isBananaActive').addEventListener('click', save_options);
-document.addEventListener('DOMContentLoaded', restore_options);
+document.getElementById('isBananaActive').addEventListener('click', saveOptions);
+document.addEventListener('DOMContentLoaded', restoreOptions);
