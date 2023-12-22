@@ -20,9 +20,10 @@ function showBananaFacts() {
 chrome.storage.sync.get({ isBananaActive: true }, items => items.isBananaActive && addBananaToUi());
 
 
-bananaFacts = [
-    // Source https://thebananapolice.com/fun-facts/
+const bananaFacts = [
+    // Source https://thebananapolice.com/fun-facts
 
+    // RANDOM THINGS ABOUT BANANAS
     "The scientific name for banana is musa sapientum, which means “fruit of the wise men.”",
     "Bananas float in water, as do apples and watermelons.",
     "Hawaii is the only place in the U.S. where bananas are grown commercially, although at one time they were also grown in southern California and Florida. The overwhelming majority of the bananas Americans eat come from countries in Latin America and South America, including Costa Rica, Ecuador, Colombia, Honduras, Panama, and Guatemala.",
@@ -56,7 +57,7 @@ bananaFacts = [
     "More songs have been written about bananas than about any other fruit.",
 
     // HOW BANANAS GROW AND WHAT BANANA PLANTS ARE LIKE:
-    "Bananas don’t actually grow on trees—they grow on plants that are officially classified as an herb (not surprisingly, the world’s largest herb). They’re in the same family as lilies, orchids, and palms.",
+    "Bananas don't actually grow on trees—they grow on plants that are officially classified as an herb (not surprisingly, the world’s largest herb). They’re in the same family as lilies, orchids, and palms.",
     "Banana plants grow up to 25 feet high, and their leaves can grow to be 9 feet long and 2 feet wide. Their roots can be hundreds of years old.",
     "Bananas are technically berries.",
     "Banana plants grow not from seeds but from bulbs.",
