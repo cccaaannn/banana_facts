@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Banana-facts",
-    "description": "This extension adds a banana shaped button to the bottom of your page, when clicked it shows random banana facts.",
+    "name": "banana-facts",
+    "description": "Adds a banana shaped button to the bottom of your page, when clicked it shows random banana facts.",
     "version": "0.2.0",
     "icons": {
         "48": "static/images/banana.png"
