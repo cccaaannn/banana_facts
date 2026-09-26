@@ -1,19 +1,121 @@
 function addBananaToUi() {
-    const s = document.createElement("span");
-    s.id = "banana-span";
+    const host = document.createElement("banana-facts-root");
+    host.style.cssText = "all: initial !important; position: fixed !important; bottom: 24px !important; right: 24px !important; z-index: 2147483647 !important;";
+
+    const shadow = host.attachShadow({ mode: "closed" });
+
+    const style = document.createElement("style");
+    style.textContent = `
+        img {
+            display: block;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        img:hover { transform: rotate(20deg) scale(1.1); }
+        img:active { transform: rotate(20deg) scale(0.95); }
+
+        .bubble {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            right: 0;
+            box-sizing: border-box;
+            width: 300px;
+            max-width: calc(100vw - 48px);
+            padding: 14px 16px 12px;
+            background: #fff8d6;
+            color: #3d3200;
+            border: 2px solid #f5c800;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            transform-origin: bottom right;
+            animation: pop 0.2s ease-out;
+        }
+        .bubble::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border: 10px solid transparent;
+            border-top-color: #f5c800;
+        }
+        @keyframes pop {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .fact { margin: 0 20px 10px 0; }
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        button {
+            font: inherit;
+            cursor: pointer;
+            color: inherit;
+        }
+        .next {
+            padding: 4px 10px;
+            background: #f5c800;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            padding: 0 4px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            line-height: 1;
+        }
+    `;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.hidden = true;
+    bubble.innerHTML = `
+        <button class="close" aria-label="Close">×</button>
+        <p class="fact"></p>
+        <div class="footer">
+            <span><a href="https://thebananapolice.com/fun-facts" target="_blank">thebananapolice</a></span>
+            <button class="next">Next fact</button>
+        </div>
+    `;
+    const fact = bubble.querySelector(".fact");
+    const showRandomFact = () => fact.textContent = randomBananaFact();
 
     const i = document.createElement("img");
-    i.id = "banana";
-    i.src = chrome.runtime.getURL('static/images/banana.png')
+    i.src = chrome.runtime.getURL("static/images/banana.png");
+    i.alt = "Banana facts";
 
-    s.appendChild(i);
-    document.body.appendChild(s);
-    s.addEventListener("click", showBananaFacts);
+    i.addEventListener("click", () => {
+        bubble.hidden = !bubble.hidden;
+        if (!bubble.hidden) showRandomFact();
+    });
+    bubble.querySelector(".next").addEventListener("click", showRandomFact);
+    bubble.querySelector(".close").addEventListener("click", () => bubble.hidden = true);
+
+    // Close when clicking anywhere outside the banana or pressing Escape
+    document.addEventListener("click", e => {
+        if (!e.composedPath().includes(host)) bubble.hidden = true;
+    });
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") bubble.hidden = true;
+    });
+
+    shadow.append(style, bubble, i);
+    document.documentElement.appendChild(host);
 }
 
-function showBananaFacts() {
-    const rand = Math.floor(Math.random() * bananaFacts.length);
-    alert(bananaFacts[rand] + "\n\nsource: thebananapolice.com");
+function randomBananaFact() {
+    return bananaFacts[Math.floor(Math.random() * bananaFacts.length)];
 }
 
 // Add banana if active
